@@ -1,24 +1,37 @@
-import { cn } from "@/lib/utils";
+"use client";
 
-const categories = ["Pizza", "Combo", "Salad", "Coctail", "Cofe", "Drink", "Dessert"];
-const activeCategory = 0;
+import { cn } from "@/lib/utils";
+import { useCategoryStore } from "@/store/category";
+
+const categories = [
+  { id: 1, name: "Pizzas" },
+  { id: 2, name: "Combo" },
+  { id: 3, name: "Salad" },
+  { id: 4, name: "Coctail" },
+  { id: 5, name: "Cofe" },
+  { id: 6, name: "Drink" },
+  { id: 7, name: "Dessert" },
+];
 
 interface CategoriesProps {
   className?: string;
 }
 
 export const Categories = ({ className }: CategoriesProps) => {
+  const { activeCategoryId } = useCategoryStore();
+
   return (
     <div className={cn("inline-flex gap-1 bg-gray-50 p-1 rounded-2xl", className)}>
-      {categories.map((category, index) => (
+      {categories.map(({ id, name }) => (
         <a
-          key={index}
+          key={id}
+          href={`/#${name.toLowerCase()}`}
           className={cn(
             "flex items-center font-bold h-11 rounded-2xl px-5",
-            index === activeCategory && "bg-white shadow-md shadow-gray-200 text-primary"
+            id === activeCategoryId && "bg-white shadow-md shadow-gray-200 text-primary"
           )}
         >
-          <button>{category}</button>
+          <button>{name}</button>
         </a>
       ))}
     </div>

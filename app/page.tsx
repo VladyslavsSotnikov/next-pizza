@@ -1,4 +1,4 @@
-import { Container, Filters, ProductCart, Title, TopBar } from "@/components/shared";
+import { Container, Filters, Title, TopBar } from "@/components/shared";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
 
 const pizzas = [
@@ -56,7 +56,7 @@ export default function Home() {
           <div className="flex-1">
             <div className="flex flex-col gap-16">
               <ProductsGroupList title="Pizzas" items={pizzas} categoryId={1} />
-              <ProductsGroupList title="Breakfast" items={pizzas} categoryId={1} />
+              <ProductsGroupList title="Combo" items={pizzas} categoryId={2} />
             </div>
           </div>
         </div>
