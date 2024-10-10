@@ -30,6 +30,12 @@ export const SearchInput = ({ className }: SearchInputProps) => {
     [searchQuery]
   );
 
+  const onClickItem = () => {
+    setFocused(false);
+    setSearchQuery("");
+    setProducts([]);
+  };
+
   return (
     <>
       {focused && <div className="fixed top-0 left-0 bottom-0 right-0 bg-black/50 z-30" />}
@@ -52,7 +58,7 @@ export const SearchInput = ({ className }: SearchInputProps) => {
           >
             {products.map((product) => (
               <Link
-                // onClick={onClickItem}
+                onClick={onClickItem}
                 key={product.id}
                 className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/10"
                 href={`/product/${product.id}`}
