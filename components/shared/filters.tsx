@@ -1,27 +1,41 @@
 "use client";
+
 import { cn } from "@/lib/utils";
 import { Title } from "./title";
 import { Input } from "../ui";
 import { RangeSlider } from "./range-slider";
 import { CheckboxFiltersGroup } from "./checkbox-filters-group";
 import { useFilterIngredients } from "@/hooks/useFilterIngredients";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSet } from "react-use";
+import QueryString from "qs";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface FiltersProps {
   className?: string;
 }
 
 interface PriceProps {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
+}
+
+interface QueryFilters extends PriceProps {
+  pizzaTypes?: string;
+  sizes?: string;
+  ingredients?: string;
 }
 
 export const Filters = ({ className }: FiltersProps) => {
-  const { ingredients, loading, selectedIngredients, onAddIngredient } = useFilterIngredients();
-  const [prices, setPrice] = useState<PriceProps>({ priceFrom: 0, priceTo: 100 });
-  const [selectedSizes, { toggle: toggleSize }] = useSet(new Set<string>());
-  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(new Set<string>());
+  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
+  const router = useRouter();
+  const { ingredients, loading, selectedIngredients, onAddIngredient } = useFilterIngredients(searchParams.get("ingredients")?.split(",") || []);
+  const [prices, setPrice] = useState<PriceProps>({
+    priceFrom: Number(searchParams.get("priceFrom")) || undefined,
+    priceTo: Number(searchParams.get("priceTo")) || undefined,
+  });
+  const [selectedSizes, { toggle: toggleSize }] = useSet(new Set<string>(searchParams.get("sizes")?.split(",") || []));
+  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(new Set<string>(searchParams.get("pizzaTypes")?.split(",") || []));
 
 
   const ingredientsItems = ingredients.map((ingredient) => ({
@@ -32,6 +46,24 @@ export const Filters = ({ className }: FiltersProps) => {
   const updatePrice = (name: keyof PriceProps, value: number) => {
     setPrice({ ...prices, [name]: value });
   };
+
+  useEffect(() => {
+    const filters = {
+      ...prices,
+      pizzaTypes: Array.from(pizzaTypes),
+      sizes: Array.from(selectedSizes),
+      ingredients: Array.from(selectedIngredients),
+    };
+
+    const queryString = QueryString.stringify(filters, { encode: false, arrayFormat: "comma" });
+
+    router.push(`?${queryString}`, {
+      scroll: false,
+    });
+  }, [prices, pizzaTypes, selectedSizes, selectedIngredients, router]);
+
+
+  console.log(searchParams);
 
   return (
     <div className={cn("flex flex-col gap-10", className)}>
@@ -64,7 +96,7 @@ export const Filters = ({ className }: FiltersProps) => {
               placeholder="0"
               min={0}
               max={100}
-              value={prices.priceFrom.toString()}
+              value={prices.priceFrom?.toString() || "0"}
               onChange={(e) => updatePrice("priceFrom", Number(e.target.value))}
             />
             <Input
@@ -72,7 +104,7 @@ export const Filters = ({ className }: FiltersProps) => {
               placeholder="100"
               min={10}
               max={100}
-              value={prices.priceTo.toString()}
+              value={prices.priceTo?.toString() || "100"}
               onChange={(e) => updatePrice("priceTo", Number(e.target.value))}
             />
           </div>
@@ -80,7 +112,7 @@ export const Filters = ({ className }: FiltersProps) => {
             min={0}
             max={100}
             step={1}
-            value={[prices.priceFrom, prices.priceTo]}
+            value={[prices.priceFrom || 0, prices.priceTo || 100]}
             onValueChange={([from, to]) => {
               setPrice({ priceFrom: from, priceTo: to });
             }}
