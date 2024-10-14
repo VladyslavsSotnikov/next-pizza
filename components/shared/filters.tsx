@@ -61,7 +61,7 @@ export const Filters = ({ className }: FiltersProps) => {
               type="number"
               placeholder="0"
               min={0}
-              max={100}
+              max={1000}
               value={filters.prices.priceFrom || "0"}
               onChange={(e) => filters.setPrices("priceFrom", Number(e.target.value))}
             />
@@ -69,16 +69,16 @@ export const Filters = ({ className }: FiltersProps) => {
               type="number"
               placeholder="100"
               min={10}
-              max={100}
-              value={filters.prices.priceTo || "100"}
+              max={1000}
+              value={filters.prices.priceTo || "1000"}
               onChange={(e) => filters.setPrices("priceTo", Number(e.target.value))}
             />
           </div>
           <RangeSlider
             min={0}
-            max={100}
+            max={1000}
             step={1}
-            value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 100]}
+            value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 1000]}
             onValueChange={updatePrices}
           />
         </div>
