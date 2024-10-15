@@ -10,7 +10,7 @@ export type Variant = {
 };
 
 interface Props {
-  items: readonly Variant[];
+  items: Variant[];
   onClick?: (value: Variant["value"]) => void;
   selectedValue?: Variant["value"];
   className?: string;

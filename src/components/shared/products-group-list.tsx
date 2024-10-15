@@ -19,7 +19,8 @@ export const ProductsGroupList = ({ title, items, listClassName, categoryId, cla
   const { setActiveCategoryId } = useCategoryStore();
   const intersectionRef = useRef(null);
   const intersection = useIntersection(intersectionRef, {
-    threshold: 0.4,
+    rootMargin: "0px",
+    threshold: 1,
   });
 
   useEffect(() => {
