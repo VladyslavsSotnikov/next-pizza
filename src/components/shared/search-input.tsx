@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { Search } from "lucide-react";
 import { useClickAway, useDebounce } from "react-use";
 import Link from "next/link";
-import { API } from "@/src/services/api-client";
+import { API } from "@/services/api-client";
 import { cn } from "@/lib/utils";
 import { Product } from "@prisma/client";
 
