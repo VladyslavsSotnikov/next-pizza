@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Title } from "./title";
 import { ProductCart } from "./product-cart";
 import { useCategoryStore } from "@/store/category";
+import { useCartStore } from "@/store";
 
 interface ProductsGroupListProps {
   title: string;

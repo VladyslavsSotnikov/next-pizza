@@ -11,7 +11,7 @@ interface Props {
   className?: string;
 }
 
-export const ChooseProductForm = ({ imageUrl, name, price, className }: Props) => {
+export const ChooseProductForm = ({ imageUrl, name, price, onSubmit, loading, className }: Props) => {
   return (
     <div className={cn(className, "flex flex-1")}>
       <div className="flex items-center justify-center flex-1 relative w-full">
@@ -19,7 +19,9 @@ export const ChooseProductForm = ({ imageUrl, name, price, className }: Props) =
       </div>
       <div className="w-[490px] bg-[#f7f6f5] p-7">
         <Title text={name} size="md" className="font-extrabold mb-1" />
-        <Button className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">Add to cart for {price} $</Button>
+        <Button onClick={() => onSubmit?.()} className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10" loading={loading}>
+          Add to cart for {price} $
+        </Button>
       </div>
     </div>
   );

@@ -7,6 +7,8 @@ import { ChoosePizzaForm } from "@/components/shared";
 
 import { ChooseProductForm } from "../choose-product-form";
 import { ProductWithRelations } from "@/types/prisma";
+import { useCartStore } from "@/store";
+import toast from "react-hot-toast";
 
 interface ChooseProductModalProps {
   product: ProductWithRelations;
@@ -15,7 +17,26 @@ interface ChooseProductModalProps {
 
 export const ChooseProductModal = ({ product, className }: ChooseProductModalProps) => {
   const router = useRouter();
-  const isPizzaForm = product.items[0].pizzaType !== null;
+  const { addCartItem, loading } = useCartStore();
+  const firstItem = product.items[0];
+  const isPizzaForm = firstItem.pizzaType !== null;
+
+  const onSubmit = async (productItemId?: number, ingredients?: number[]) => {
+    try {
+      const itemId = productItemId ?? firstItem.id;
+
+      await addCartItem({
+        productItemId: itemId,
+        ingredientsIds: ingredients,
+      });
+
+      toast.success(`${product.name} was added to cart`);
+      router.back();
+    } catch (error) {
+      toast.error("Failed to add product to cart");
+      console.error(error);
+    }
+  };
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
@@ -26,10 +47,17 @@ export const ChooseProductModal = ({ product, className }: ChooseProductModalPro
             name={product.name}
             ingredients={product.ingredients}
             items={product.items}
-            onSubmit={() => {}}
+            onSubmit={onSubmit}
+            loading={loading}
           />
         ) : (
-          <ChooseProductForm imageUrl={product.imageUrl} name={product.name} price={product.items[0].price} />
+          <ChooseProductForm
+            imageUrl={product.imageUrl}
+            name={product.name}
+            price={firstItem.price}
+            onSubmit={onSubmit}
+            loading={loading}
+          />
         )}
       </DialogContent>
     </Dialog>

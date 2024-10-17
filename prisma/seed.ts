@@ -143,6 +143,36 @@ async function up() {
       },
     },
   });
+
+  await prisma.cartItem.create({
+    data: {
+      cartId: 1,
+      productItemId: 11,
+      quantity: 5,
+      ingredients: {
+        connect: [{ id: 3 }, { id: 4 }, { id: 5 }],
+      },
+    },
+  });
+
+  await prisma.cartItem.create({
+    data: {
+      cartId: 2,
+      productItemId: 8,
+      quantity: 2,
+      ingredients: {
+        connect: [{ id: 3 }],
+      },
+    },
+  });
+
+  await prisma.cartItem.create({
+    data: {
+      cartId: 2,
+      productItemId: 20,
+      quantity: 5,
+    },
+  });
 }
 async function down() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;

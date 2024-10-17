@@ -18,16 +18,13 @@ interface Props {
 }
 
 export const ChoosePizzaForm = ({ imageUrl, name, ingredients, items, loading, onSubmit, className }: Props) => {
-  const { size, type, selectedIngredients, availableSizes, setSize, setType, addIngredient } = usePizzaOptions(items);
-
+  const { size, type, selectedIngredients, availableSizes, currentItemId, setSize, setType, addIngredient } = usePizzaOptions(items);
   const { totalPrice, textDetails } = getPizzaDetails(size, type, items, ingredients, selectedIngredients);
 
   const handleClickAdd = () => {
-    console.log("cart", {
-      size,
-      type,
-      ingredients: Array.from(selectedIngredients),
-    });
+    if (!currentItemId) return;
+
+    onSubmit(currentItemId, Array.from(selectedIngredients));
   };
 
   return (
@@ -55,7 +52,7 @@ export const ChoosePizzaForm = ({ imageUrl, name, ingredients, items, loading, o
           </div>
         </div>
 
-        <Button onClick={handleClickAdd} className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10">
+        <Button onClick={handleClickAdd} className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10" loading={loading}>
           Add to cart for {totalPrice} $
         </Button>
       </div>

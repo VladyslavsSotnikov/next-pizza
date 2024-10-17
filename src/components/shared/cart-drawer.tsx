@@ -11,15 +11,20 @@ import { useEffect } from "react";
 import { PizzaSize, PizzaType } from "@/constants/pizza";
 
 interface Props {
-  className?: string;
+  children: React.ReactNode;
 }
 
-export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className, children }) => {
-  const { items, totalAmount, fetchCartItems } = useCartStore();
+export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children }) => {
+  const { items, totalAmount, fetchCartItems, updateItemQuantity, removeCartItem } = useCartStore();
 
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (cartItemId: number, quantity: number, type: "plus" | "minus") => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(cartItemId, newQuantity);
+  };
 
   return (
     <Sheet>
@@ -45,6 +50,8 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ className
                 name={item.name}
                 quantity={item.quantity}
                 price={item.price}
+                onClickCountButton={(type) => onClickCountButton(item.id, item.quantity, type)}
+                onClickDeleteButton={() => removeCartItem(item.id)}
               />
             </div>
           ))}
