@@ -29,7 +29,6 @@ export const CheckboxFiltersGroup = ({
   searchInputPlaceholder = "Search",
   onClickCheckbox,
   selectedValues,
-  defaultValue,
   className,
 }: CheckboxFiltersGroupProps) => {
   const [showAll, setShowAll] = useState(false);

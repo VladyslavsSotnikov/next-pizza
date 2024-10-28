@@ -33,6 +33,7 @@ export const usePizzaOptions = (items: ProductItem[]): ReturnType => {
     if (!avaliblePizza && availableSize) {
       setSize(Number(availableSize) as PizzaSize);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   return {

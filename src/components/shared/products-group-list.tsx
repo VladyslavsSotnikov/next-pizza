@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 import { Title } from "./title";
 import { ProductCart } from "./product-cart";
 import { useCategoryStore } from "@/store/category";
-import { useCartStore } from "@/store";
+import { ProductWithRelations } from "@/types/prisma";
 
 interface ProductsGroupListProps {
   title: string;
-  items: any[];
+  items: ProductWithRelations[];
   categoryId: number;
   className?: string;
   listClassName?: string;

@@ -19,6 +19,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children 
 
   useEffect(() => {
     fetchCartItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClickCountButton = (cartItemId: number, quantity: number, type: "plus" | "minus") => {

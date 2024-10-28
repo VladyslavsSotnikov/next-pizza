@@ -2,17 +2,18 @@ import Link from "next/link";
 import { Title } from "./title";
 import { Button } from "../ui";
 import { Plus } from "lucide-react";
+import { Ingredient } from "@prisma/client";
 
 interface ProductCartProps {
   id: number;
   imageUrl: string;
   name: string;
   price: number;
-  ingredients: Ingredient[];
   className?: string;
+  ingredients: Ingredient[];
 }
 
-export const ProductCart = ({ className, id, name, price, imageUrl, ingredients }: ProductCartProps) => {
+export const ProductCart = ({ className, id, name, price, ingredients, imageUrl }: ProductCartProps) => {
   return (
     <div className={className}>
       <Link href={`/product/${id}`}>
@@ -22,7 +23,7 @@ export const ProductCart = ({ className, id, name, price, imageUrl, ingredients 
 
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
-        <p className="text-sm text-gray-400">Chiken, Cheese, Tomatoes, Onions</p>
+        <p className="text-sm text-gray-400">{ingredients.map((ingredient) => ingredient.name).join(", ")}</p>
 
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">

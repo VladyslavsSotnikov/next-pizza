@@ -11,7 +11,6 @@ interface CartDrawerItemProps extends CartItemProps {
 }
 
 export const CartDrawerItem = ({
-  id,
   imageUrl,
   details,
   name,
