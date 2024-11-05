@@ -48,6 +48,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children 
                     ? getCartItemDetails(item.ingredients, item.pizzaType as PizzaType, item.pizzaSize as PizzaSize)
                     : ""
                 }
+                disabled={item.disabled}
                 name={item.name}
                 quantity={item.quantity}
                 price={item.price}

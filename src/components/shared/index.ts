@@ -19,3 +19,4 @@ export { CartButton } from "./cart-button";
 export { CartDrawer } from "./cart-drawer";
 export { CountButton } from "./count-button";
 export { CountIconButton } from "./count-icon-button";
+export { ProductForm } from "./product-form";
