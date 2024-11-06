@@ -8,24 +8,18 @@ import { Button } from "../ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CartDrawerItem } from "./cart-drawer-item";
 import { getCartItemDetails } from "@/lib";
-import { useCartStore } from "@/store/cart";
-import { useEffect } from "react";
 import { PizzaSize, PizzaType } from "@/constants/pizza";
 
 import emptyCart from "../../../public/assets/images/empty-box.png";
 import { Title } from "./title";
+import { useCart } from "@/hooks";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children }) => {
-  const { items, totalAmount, fetchCartItems, updateItemQuantity, removeCartItem } = useCartStore();
-
-  useEffect(() => {
-    fetchCartItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { items, totalAmount, updateItemQuantity, removeCartItem } = useCart();
 
   const onClickCountButton = (cartItemId: number, quantity: number, type: "plus" | "minus") => {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
@@ -76,7 +70,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren<Props>> = ({ children 
                   </span>
                   <span className="font-bold text-lg">{totalAmount} $</span>
                 </div>
-                <Link href="/cart">
+                <Link href="/checkout">
                   <Button type="submit" className="w-full h-12 text-base">
                     Checkout
                     <ArrowRight className="w-5 ml-2" />
