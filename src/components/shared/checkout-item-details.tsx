@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface Props {
   title?: JSX.Element;
-  value?: string;
+  value?: string | number | ReactNode;
   className?: string;
 }
 

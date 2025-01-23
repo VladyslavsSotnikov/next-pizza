@@ -1,21 +1,42 @@
 "use client";
 
 import {
-  CheckoutItem,
-  CheckoutItemSkeleton,
+  CheckoutAddressForm,
+  CheckoutCart,
+  CheckoutPersonalForm,
   CheckoutSidebar,
   Container,
   Title,
-  WhiteBlock,
 } from "@/components/shared";
-import { Input, Textarea } from "@/components/ui";
-import { PizzaType, PizzaSize } from "@/constants/pizza";
+
 import { useCart } from "@/hooks";
-import { getCartItemDetails } from "@/lib";
+import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  checkoutFormSchema,
+  CheckoutFormValues,
+} from "@/components/shared/checkout/checkout-form-schema";
+import { cn } from "@/lib/utils";
 
 export default function Checkout() {
   const { items, loading, updateItemQuantity, removeCartItem, totalAmount } =
     useCart();
+
+  const form = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutFormSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      comment: "",
+    },
+  });
+
+  const onSubmit = (data: CheckoutFormValues) => {
+    console.log(data);
+  };
 
   const onClickCountButton = (
     id: number,
@@ -29,61 +50,29 @@ export default function Checkout() {
   return (
     <Container>
       <Title text="Checkout" size="lg" className="font-extrabold my-7" />
-      <div className="flex gap-10">
-        <div className="flex flex-col gap-10 flex-1 mb-20">
-          <WhiteBlock title="1. Cart">
-            <div className="flex flex-col gap-5">
-              {loading &&
-                Array.from({ length: 3 }).map((_, index) => (
-                  <CheckoutItemSkeleton key={index} className="h-15 w-full" />
-                ))}
-              {!loading &&
-                items.map((item) => (
-                  <CheckoutItem
-                    key={item.id}
-                    id={item.id}
-                    imageUrl={item.imageUrl}
-                    details={getCartItemDetails(
-                      item.ingredients,
-                      item.pizzaType as PizzaType,
-                      item.pizzaSize as PizzaSize,
-                    )}
-                    name={item.name}
-                    price={item.price}
-                    quantity={item.quantity}
-                    onClickCountButton={(type) =>
-                      onClickCountButton(item.id, item.quantity, type)
-                    }
-                    onClickRemove={() => {
-                      removeCartItem(item.id);
-                    }}
-                  />
-                ))}
-            </div>
-          </WhiteBlock>
-          <WhiteBlock title="2. Personal details">
-            <div className="grid grid-cols-2 gap-5">
-              <Input name="firstName" placeholder="First name" />
-              <Input name="lastName" placeholder="Last name" />
-              <Input name="email" placeholder="Email" />
-              <Input name="phone" placeholder="Phone" />
-            </div>
-          </WhiteBlock>
-          <WhiteBlock title="3. Delivery address">
-            <div className="flex flex-col gap-5">
-              <Input name="address" placeholder="Address" />
-              <Textarea
-                className="text-base"
-                rows={5}
-                placeholder="Comment..."
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex gap-10">
+            <div className="flex flex-col gap-10 flex-1 mb-20">
+              <CheckoutCart
+                items={items}
+                onClickCountButton={onClickCountButton}
+                removeCartItem={removeCartItem}
+                loading={loading}
+              />
+              <CheckoutPersonalForm
+                className={cn({ "opacity-40 pointer-events-none": loading })}
+              />
+              <CheckoutAddressForm
+                className={cn({ "opacity-40 pointer-events-none": loading })}
               />
             </div>
-          </WhiteBlock>
-        </div>
-        <div className="w-[450px]">
-          <CheckoutSidebar totalAmount={totalAmount} />
-        </div>
-      </div>
+            <div className="w-[450px]">
+              <CheckoutSidebar totalAmount={totalAmount} loading={loading} />
+            </div>
+          </div>
+        </form>
+      </FormProvider>
     </Container>
   );
 }

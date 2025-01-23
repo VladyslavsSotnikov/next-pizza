@@ -7,6 +7,7 @@ import { CheckoutItemDetails } from "./checkout-item-details";
 import { WhiteBlock } from "./white-block";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "../ui/skeleton";
 
 const VAT = 15;
 const DELIVERY_FEE = 25;
@@ -14,11 +15,13 @@ const DELIVERY_FEE = 25;
 type CheckoutSidebarProps = {
   totalAmount: number;
   className?: string;
+  loading?: boolean;
 };
 
 export const CheckoutSidebar = ({
   totalAmount,
   className,
+  loading,
 }: CheckoutSidebarProps) => {
   const fee = (totalAmount * VAT) / 100;
   const finalAmount = totalAmount + fee + DELIVERY_FEE;
@@ -27,7 +30,11 @@ export const CheckoutSidebar = ({
     <WhiteBlock className={cn("p-6 sticky top-4", className)}>
       <div className="flex flex-col gap-1">
         <span className="text-xl">Total:</span>
-        <span className="text-[34px] font-extrabold">{`${finalAmount}$`}</span>
+        {loading ? (
+          <Skeleton className="h-11 w-36" />
+        ) : (
+          <span className="h-11 text-[34px] font-extrabold">{`${finalAmount}$`}</span>
+        )}
       </div>
 
       <CheckoutItemDetails
@@ -36,7 +43,13 @@ export const CheckoutSidebar = ({
             <Package size={18} className="mr-2 text-gray-300" /> Subtotal
           </div>
         }
-        value={`${totalAmount}$`}
+        value={
+          loading ? (
+            <Skeleton className="h-6 w-16 rounded-[6px]" />
+          ) : (
+            `${totalAmount}$`
+          )
+        }
       />
       <CheckoutItemDetails
         title={
@@ -44,7 +57,9 @@ export const CheckoutSidebar = ({
             <Percent size={18} className="mr-2 text-gray-300" /> Fee
           </div>
         }
-        value={`${fee}$`}
+        value={
+          loading ? <Skeleton className="h-6 w-16 rounded-[6px]" /> : `${fee}$`
+        }
       />
       <CheckoutItemDetails
         title={
@@ -52,7 +67,13 @@ export const CheckoutSidebar = ({
             <Truck size={18} className="mr-2 text-gray-300" /> Delivery
           </div>
         }
-        value={`${DELIVERY_FEE}$`}
+        value={
+          loading ? (
+            <Skeleton className="h-6 w-16 rounded-[6px]" />
+          ) : (
+            `${DELIVERY_FEE}$`
+          )
+        }
       />
       <Button
         type="submit"
