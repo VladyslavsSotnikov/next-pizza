@@ -7,9 +7,15 @@ export const getPizzaDetails = (
   type: PizzaType,
   items: ProductItem[],
   ingredients: Ingredient[],
-  selectedIngredients: Set<number>
+  selectedIngredients: Set<number>,
 ) => {
-  const totalPrice = calcTotalPizzaPrice(type, size, items, ingredients, selectedIngredients);
+  const totalPrice = calcTotalPizzaPrice(
+    type,
+    size,
+    items,
+    ingredients,
+    selectedIngredients,
+  );
   const textDetails = `${size} sm, ${mapPizzaType[type].toLocaleLowerCase()} pizza`;
 
   return { totalPrice, textDetails };

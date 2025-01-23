@@ -2,7 +2,10 @@ import { updateCartTotalAmount } from "@/lib";
 import { prisma } from "@/prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
   try {
     const id = parseInt(params.id);
     const data = (await req.json()) as { quantity: number };
@@ -17,7 +20,10 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Cart item not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Cart item not found" },
+        { status: 404 },
+      );
     }
 
     await prisma.cartItem.update({
@@ -31,11 +37,17 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   } catch (error) {
     console.error(error);
 
-    return NextResponse.json({ error: "Failed to update cart" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to update cart" },
+      { status: 500 },
+    );
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } },
+) {
   try {
     const id = parseInt(params.id);
     const token = req.cookies.get("cartToken")?.value;
@@ -49,7 +61,10 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     });
 
     if (!cartItem) {
-      return NextResponse.json({ error: "Cart item not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Cart item not found" },
+        { status: 404 },
+      );
     }
 
     await prisma.cartItem.delete({
@@ -62,6 +77,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
   } catch (error) {
     console.error(error);
 
-    return NextResponse.json({ error: "Failed to delete cart item" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to delete cart item" },
+      { status: 500 },
+    );
   }
 }

@@ -28,17 +28,26 @@ interface ReturnType extends Filters {
 }
 
 export const useFilters = (): ReturnType => {
-  const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>;
+  const searchParams = useSearchParams() as unknown as Map<
+    keyof QueryFilters,
+    string
+  >;
 
   const [prices, setPrices] = useState<PriceProps>({
     priceFrom: Number(searchParams.get("priceFrom")) || undefined,
     priceTo: Number(searchParams.get("priceTo")) || undefined,
   });
 
-  const [sizes, { toggle: toggleSize }] = useSet(new Set<string>(searchParams.get("sizes")?.split(",") || []));
-  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(new Set<string>(searchParams.get("pizzaTypes")?.split(",") || []));
+  const [sizes, { toggle: toggleSize }] = useSet(
+    new Set<string>(searchParams.get("sizes")?.split(",") || []),
+  );
+  const [pizzaTypes, { toggle: togglePizzaType }] = useSet(
+    new Set<string>(searchParams.get("pizzaTypes")?.split(",") || []),
+  );
 
-  const [selectedIngredients, { toggle: toggleIngredients }] = useSet(new Set<string>(searchParams.get("ingredients")?.split(",") || []));
+  const [selectedIngredients, { toggle: toggleIngredients }] = useSet(
+    new Set<string>(searchParams.get("ingredients")?.split(",") || []),
+  );
 
   const updatePrice = (name: keyof PriceProps, value: number) => {
     setPrices((prev) => ({ ...prev, [name]: value }));

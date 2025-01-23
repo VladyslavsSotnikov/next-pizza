@@ -3,7 +3,11 @@ import { Container, Filters, Title, TopBar } from "@/components/shared";
 import { ProductsGroupList } from "@/components/shared/products-group-list";
 import { GetSearchParams, findPizzas } from "@/lib/find-pizzas";
 
-export default async function Home({ searchParams }: { searchParams: GetSearchParams }) {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: GetSearchParams;
+}) {
   const categories = await findPizzas(searchParams);
 
   return (
@@ -11,7 +15,11 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
       <Container className="mt-10">
         <Title text="All pizzas" size="lg" className="font-extrabold" />
       </Container>
-      <TopBar categories={categories.filter((category) => category.products.length > 0)} />
+      <TopBar
+        categories={categories.filter(
+          (category) => category.products.length > 0,
+        )}
+      />
       <Container className="pb-14 mt-10">
         <div className="flex gap-[80px]">
           {/* Filter */}
@@ -26,8 +34,13 @@ export default async function Home({ searchParams }: { searchParams: GetSearchPa
               {categories.map(
                 (category) =>
                   category.products.length > 0 && (
-                    <ProductsGroupList key={category.id} title={category.name} items={category.products} categoryId={category.id} />
-                  )
+                    <ProductsGroupList
+                      key={category.id}
+                      title={category.name}
+                      items={category.products}
+                      categoryId={category.id}
+                    />
+                  ),
               )}
             </div>
           </div>

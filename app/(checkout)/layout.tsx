@@ -15,7 +15,11 @@ export default function RootLayout({
   return (
     <main className="min-h-screen bg-[#F4F1EE]">
       <Container className="">
-        <Header className="border-b border-b-neutral-200" hasSearch={false} hasCart={false} />
+        <Header
+          className="border-b border-b-neutral-200"
+          hasSearch={false}
+          hasCart={false}
+        />
         {children}
       </Container>
     </main>

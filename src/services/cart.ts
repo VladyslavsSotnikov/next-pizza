@@ -8,19 +8,29 @@ export const getCart = async (): Promise<CartDTO> => {
   return data;
 };
 
-export const updateCartItemQuantity = async (id: number, quantity: number): Promise<CartDTO> => {
-  const { data } = await axiosInstance.patch<CartDTO>(`${API_ROUTES.CART}/${id}`, { quantity });
+export const updateCartItemQuantity = async (
+  id: number,
+  quantity: number,
+): Promise<CartDTO> => {
+  const { data } = await axiosInstance.patch<CartDTO>(
+    `${API_ROUTES.CART}/${id}`,
+    { quantity },
+  );
 
   return data;
 };
 
 export const removeCartItem = async (id: number): Promise<CartDTO> => {
-  const { data } = await axiosInstance.delete<CartDTO>(`${API_ROUTES.CART}/${id}`);
+  const { data } = await axiosInstance.delete<CartDTO>(
+    `${API_ROUTES.CART}/${id}`,
+  );
 
   return data;
 };
 
-export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {
+export const addCartItem = async (
+  values: CreateCartItemValues,
+): Promise<CartDTO> => {
   const { data } = await axiosInstance.post<CartDTO>(API_ROUTES.CART, values);
 
   return data;

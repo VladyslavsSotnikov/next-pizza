@@ -13,7 +13,14 @@ interface ProductCartProps {
   ingredients: Ingredient[];
 }
 
-export const ProductCart = ({ className, id, name, price, ingredients, imageUrl }: ProductCartProps) => {
+export const ProductCart = ({
+  className,
+  id,
+  name,
+  price,
+  ingredients,
+  imageUrl,
+}: ProductCartProps) => {
   return (
     <div className={className}>
       <Link href={`/product/${id}`}>
@@ -23,7 +30,9 @@ export const ProductCart = ({ className, id, name, price, ingredients, imageUrl 
 
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
-        <p className="text-sm text-gray-400">{ingredients.map((ingredient) => ingredient.name).join(", ")}</p>
+        <p className="text-sm text-gray-400">
+          {ingredients.map((ingredient) => ingredient.name).join(", ")}
+        </p>
 
         <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">

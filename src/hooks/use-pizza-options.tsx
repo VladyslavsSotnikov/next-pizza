@@ -23,12 +23,18 @@ export const usePizzaOptions = (items: ProductItem[]): ReturnType => {
 
   const availableSizes = getAvailablePizzaSizes(type, items);
 
-  const currentItemId = items.find((item) => item.pizzaType === type && item.size === size)?.id;
+  const currentItemId = items.find(
+    (item) => item.pizzaType === type && item.size === size,
+  )?.id;
 
   useEffect(() => {
-    const avaliblePizza = availableSizes.find((pizza) => Number(pizza.value) === size && !pizza.disabled);
+    const avaliblePizza = availableSizes.find(
+      (pizza) => Number(pizza.value) === size && !pizza.disabled,
+    );
 
-    const availableSize = availableSizes?.find((pizza) => !pizza.disabled)?.value;
+    const availableSize = availableSizes?.find(
+      (pizza) => !pizza.disabled,
+    )?.value;
 
     if (!avaliblePizza && availableSize) {
       setSize(Number(availableSize) as PizzaSize);

@@ -62,7 +62,10 @@ export const useCartStore = create<CartState>((set) => ({
       console.error(error);
       set({ error: true });
     } finally {
-      set((state) => ({ loading: false, items: state.items.map((item) => ({ ...item, disabled: false })) }));
+      set((state) => ({
+        loading: false,
+        items: state.items.map((item) => ({ ...item, disabled: false })),
+      }));
     }
   },
   addCartItem: async (values: CreateCartItemValues) => {

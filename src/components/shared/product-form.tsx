@@ -11,7 +11,10 @@ interface ProductFormProps {
   onSubmit?: VoidFunction;
 }
 
-export const ProductForm = ({ product, onSubmit: _onSubmit }: ProductFormProps) => {
+export const ProductForm = ({
+  product,
+  onSubmit: _onSubmit,
+}: ProductFormProps) => {
   const { addCartItem, loading } = useCartStore();
 
   const firstItem = product.items[0];
@@ -36,7 +39,13 @@ export const ProductForm = ({ product, onSubmit: _onSubmit }: ProductFormProps) 
 
   if (!isPizzaForm) {
     return (
-      <ChooseProductForm imageUrl={product.imageUrl} name={product.name} price={firstItem.price} onSubmit={onSubmit} loading={loading} />
+      <ChooseProductForm
+        imageUrl={product.imageUrl}
+        name={product.name}
+        price={firstItem.price}
+        onSubmit={onSubmit}
+        loading={loading}
+      />
     );
   }
 

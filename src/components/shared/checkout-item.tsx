@@ -30,7 +30,7 @@ export const CheckoutItem: React.FC<Props> = ({
         {
           "opacity-50 pointer-events-none": disabled,
         },
-        className
+        className,
       )}
     >
       <div className="flex items-center gap-5 flex-1">
@@ -41,9 +41,15 @@ export const CheckoutItem: React.FC<Props> = ({
       <CartItemDetails.Price value={price} />
 
       <div className="flex items-center gap-5 ml-20">
-        <CartItemDetails.CountButton onClick={onClickCountButton} value={quantity} />
+        <CartItemDetails.CountButton
+          onClick={onClickCountButton}
+          value={quantity}
+        />
         <button type="button" onClick={onClickRemove}>
-          <X className="text-gray-400 cursor-pointer hover:text-gray-600" size={20} />
+          <X
+            className="text-gray-400 cursor-pointer hover:text-gray-600"
+            size={20}
+          />
         </button>
       </div>
     </div>

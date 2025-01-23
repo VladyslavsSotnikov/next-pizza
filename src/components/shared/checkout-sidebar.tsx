@@ -16,7 +16,10 @@ type CheckoutSidebarProps = {
   className?: string;
 };
 
-export const CheckoutSidebar = ({ totalAmount, className }: CheckoutSidebarProps) => {
+export const CheckoutSidebar = ({
+  totalAmount,
+  className,
+}: CheckoutSidebarProps) => {
   const fee = (totalAmount * VAT) / 100;
   const finalAmount = totalAmount + fee + DELIVERY_FEE;
 
@@ -51,7 +54,10 @@ export const CheckoutSidebar = ({ totalAmount, className }: CheckoutSidebarProps
         }
         value={`${DELIVERY_FEE}$`}
       />
-      <Button type="submit" className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
+      <Button
+        type="submit"
+        className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
+      >
         Place order
         <ArrowRight size={20} className="w-5 ml-2" />
       </Button>

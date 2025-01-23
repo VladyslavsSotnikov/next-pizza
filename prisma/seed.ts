@@ -7,7 +7,15 @@ const randomDecimalNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
 };
 
-const generateProductItem = ({ productId, pizzaType, size }: { productId: number; pizzaType?: 1 | 2; size?: 20 | 30 | 40 }) => {
+const generateProductItem = ({
+  productId,
+  pizzaType,
+  size,
+}: {
+  productId: number;
+  pizzaType?: 1 | 2;
+  size?: 20 | 30 | 40;
+}) => {
   return {
     productId,
     price: randomDecimalNumber(190, 600),
@@ -51,7 +59,8 @@ async function up() {
   const pizza1 = await prisma.product.create({
     data: {
       name: "4 Cheese Pizza",
-      imageUrl: "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
+      imageUrl:
+        "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
       categoryId: 1,
       ingredients: {
         connect: _ingredients.slice(0, 5),
@@ -62,7 +71,8 @@ async function up() {
   const pizza2 = await prisma.product.create({
     data: {
       name: "Bursma",
-      imageUrl: "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
+      imageUrl:
+        "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
       categoryId: 1,
       ingredients: {
         connect: _ingredients.slice(5, 10),
@@ -73,7 +83,8 @@ async function up() {
   const pizza3 = await prisma.product.create({
     data: {
       name: "Fresh pizza",
-      imageUrl: "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
+      imageUrl:
+        "https://media.dodostatic.net/image/r:292x292/11EE7D614CBE0530B7234B6D7A6E5F8E.avif",
       categoryId: 1,
       ingredients: {
         connect: _ingredients.slice(10, 15),

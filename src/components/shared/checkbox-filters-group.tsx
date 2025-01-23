@@ -34,9 +34,13 @@ export const CheckboxFiltersGroup = ({
   const [showAll, setShowAll] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const filteredItems = items.filter((item) => item.text.toLowerCase().includes(searchValue.toLowerCase()));
+  const filteredItems = items.filter((item) =>
+    item.text.toLowerCase().includes(searchValue.toLowerCase()),
+  );
 
-  const list = showAll ? filteredItems : (defaultItems || items).slice(0, limit);
+  const list = showAll
+    ? filteredItems
+    : (defaultItems || items).slice(0, limit);
 
   const onChangeSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -84,7 +88,10 @@ export const CheckboxFiltersGroup = ({
 
       {items.length > limit && (
         <div className={showAll ? "border-t border-t-neutral-100 mt-4" : ""}>
-          <button onClick={() => setShowAll(!showAll)} className="text-primary mt-3">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-primary mt-3"
+          >
             {showAll ? "Hide" : "+ Show all"}
           </button>
         </div>

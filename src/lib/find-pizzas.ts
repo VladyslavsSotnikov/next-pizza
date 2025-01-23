@@ -14,8 +14,12 @@ const DEFAULT_MAX_PRICE = 10000;
 export const findPizzas = async (params: GetSearchParams) => {
   console.log("findPizzas called");
   const sizes = params.sizes?.split(",").map((size) => parseInt(size));
-  const pizzaTypes = params.pizzaTypes?.split(",").map((type) => parseInt(type));
-  const ingredientsIds = params.ingredients?.split(",").map((ingredient) => parseInt(ingredient));
+  const pizzaTypes = params.pizzaTypes
+    ?.split(",")
+    .map((type) => parseInt(type));
+  const ingredientsIds = params.ingredients
+    ?.split(",")
+    .map((ingredient) => parseInt(ingredient));
   const minPrice = Number(params.priceFrom) || DEFAULT_MIN_PRICE;
   const maxPrice = Number(params.priceTo) || DEFAULT_MAX_PRICE;
 
@@ -26,7 +30,9 @@ export const findPizzas = async (params: GetSearchParams) => {
           id: "desc",
         },
         where: {
-          ingredients: ingredientsIds ? { some: { id: { in: ingredientsIds } } } : undefined,
+          ingredients: ingredientsIds
+            ? { some: { id: { in: ingredientsIds } } }
+            : undefined,
           items: {
             some: {
               price: {

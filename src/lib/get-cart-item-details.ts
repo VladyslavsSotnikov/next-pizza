@@ -4,7 +4,7 @@ import { CartStateItem } from "./get-cart-details";
 export const getCartItemDetails = (
   ingredients: CartStateItem["ingredients"],
   pizzaType: PizzaType | null,
-  pizzaSize: PizzaSize | null
+  pizzaSize: PizzaSize | null,
 ): string => {
   const details = [];
 

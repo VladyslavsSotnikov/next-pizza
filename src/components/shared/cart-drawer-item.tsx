@@ -28,7 +28,7 @@ export const CartDrawerItem = ({
         {
           "opacity-50 pointer-events-none": disabled,
         },
-        className
+        className,
       )}
     >
       <CartItem.Image src={imageUrl} />
@@ -40,7 +40,11 @@ export const CartDrawerItem = ({
           <CartItem.CountButton onClick={onClickCountButton} value={quantity} />
           <div className="flex items-center gap-3">
             <CartItem.Price value={price} />
-            <Trash2Icon onClick={onClickDeleteButton} className="text-gray-400 cursor-pointer hover:text-gray-600" size={16} />
+            <Trash2Icon
+              onClick={onClickDeleteButton}
+              className="text-gray-400 cursor-pointer hover:text-gray-600"
+              size={16}
+            />
           </div>
         </div>
       </div>

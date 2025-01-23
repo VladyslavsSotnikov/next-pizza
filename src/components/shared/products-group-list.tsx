@@ -16,7 +16,13 @@ interface ProductsGroupListProps {
   listClassName?: string;
 }
 
-export const ProductsGroupList = ({ title, items, listClassName, categoryId, className }: ProductsGroupListProps) => {
+export const ProductsGroupList = ({
+  title,
+  items,
+  listClassName,
+  categoryId,
+  className,
+}: ProductsGroupListProps) => {
   const { setActiveCategoryId } = useCategoryStore();
   const intersectionRef = useRef(null);
   const intersection = useIntersection(intersectionRef, {

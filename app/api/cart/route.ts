@@ -72,12 +72,18 @@ export async function POST(req: NextRequest) {
         return items.map((item) => {
           return {
             ...item,
-            ingredients: item.ingredients.map((ingredient) => ingredient.id).sort(),
+            ingredients: item.ingredients
+              .map((ingredient) => ingredient.id)
+              .sort(),
           };
         });
       });
 
-    const findCartItem = findCartItems.find((item) => data.ingredientsIds?.sort().join(",") === item.ingredients.sort().join(","));
+    const findCartItem = findCartItems.find(
+      (item) =>
+        data.ingredientsIds?.sort().join(",") ===
+        item.ingredients.sort().join(","),
+    );
 
     if (findCartItem) {
       await prisma.cartItem.update({
@@ -110,6 +116,9 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error(error);
 
-    return NextResponse.json({ error: "Failed to add product to cart" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to add product to cart" },
+      { status: 500 },
+    );
   }
 }

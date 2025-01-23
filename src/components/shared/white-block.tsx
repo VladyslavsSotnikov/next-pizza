@@ -9,7 +9,13 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const WhiteBlock = ({ children, className, title, endAdornment, contentClassName }: Props) => {
+export const WhiteBlock = ({
+  children,
+  className,
+  title,
+  endAdornment,
+  contentClassName,
+}: Props) => {
   return (
     <div className={cn("bg-white rounded-3xl p-6", className)}>
       {title && (
