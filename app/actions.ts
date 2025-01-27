@@ -1,6 +1,8 @@
 "use server";
 
 import { CheckoutFormValues } from "@/components/shared/checkout/checkout-form-schema";
+import { PayOrderTemplate } from "@/components/shared/email-templates/pay-order";
+import { sendEmail } from "@/lib";
 import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus } from "@prisma/client";
 import { cookies } from "next/headers";
@@ -77,10 +79,21 @@ export const createOrder = async (data: CheckoutFormValues) => {
       },
     });
 
+    // Send email to user
+    await sendEmail(
+      order.email,
+      `Next.js Pizza - Need to pay order ${order.id}`,
+      PayOrderTemplate({
+        orderId: order.id,
+        totalAmount: order.totalAmount,
+        paymentUrl: "https://resend.com/docs",
+      }),
+    );
+
     // TODO: Create url for stripe payment
 
     return `/order/${order.id}`;
   } catch (error) {
-    console.log("error >>>>", error);
+    console.log("[Create order] Server error >>>>", error);
   }
 };
