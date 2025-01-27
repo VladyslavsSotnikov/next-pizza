@@ -16,12 +16,14 @@ type CheckoutSidebarProps = {
   totalAmount: number;
   className?: string;
   loading?: boolean;
+  submitting?: boolean;
 };
 
 export const CheckoutSidebar = ({
   totalAmount,
   className,
   loading,
+  submitting,
 }: CheckoutSidebarProps) => {
   const fee = (totalAmount * VAT) / 100;
   const finalAmount = totalAmount + fee + DELIVERY_FEE;
@@ -76,6 +78,7 @@ export const CheckoutSidebar = ({
         }
       />
       <Button
+        loading={submitting}
         type="submit"
         className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
       >

@@ -52,8 +52,6 @@ export async function POST(req: NextRequest) {
 
     const data = (await req.json()) as CreateCartItemValues;
 
-    console.log("data", data);
-
     const findCartItems = await prisma.cartItem
       .findMany({
         where: {
