@@ -3,8 +3,10 @@
 import { CheckoutFormValues } from "@/components/shared/checkout/checkout-form-schema";
 import { PayOrderTemplate } from "@/components/shared/email-templates/pay-order";
 import { sendEmail } from "@/lib";
+import { getUserSession } from "@/lib/get-user-session";
 import { prisma } from "@/prisma/prisma-client";
-import { OrderStatus } from "@prisma/client";
+import { OrderStatus, Prisma } from "@prisma/client";
+import { hashSync } from "bcrypt";
 import { cookies } from "next/headers";
 
 export const createOrder = async (data: CheckoutFormValues) => {
@@ -95,5 +97,38 @@ export const createOrder = async (data: CheckoutFormValues) => {
     return `/order/${order.id}`;
   } catch (error) {
     console.log("[Create order] Server error >>>>", error);
+  }
+};
+
+export const updateUser = async (body: Prisma.UserUpdateInput) => {
+  try {
+    const currentUser = await getUserSession();
+
+    if (!currentUser) {
+      throw new Error("User not found");
+    }
+
+    const foundedUser = await prisma.user.findUnique({
+      where: { id: +currentUser.id },
+    });
+
+    if (!foundedUser) {
+      throw new Error("User not found");
+    }
+
+    const user = await prisma.user.update({
+      where: { id: +currentUser.id },
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: body.password
+          ? hashSync(body.password as string, 10)
+          : foundedUser.password,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.log("[Update user] Server error >>>>", error);
   }
 };
