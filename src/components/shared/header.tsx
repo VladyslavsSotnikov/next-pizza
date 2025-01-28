@@ -8,7 +8,9 @@ import { SearchInput } from "./search-input";
 import { CartButton } from "./cart-button";
 import { ProfileButton } from "./profile-button";
 import { AuthModal } from "./modals/auth";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 interface HeaderProps {
   className?: string;
@@ -22,6 +24,32 @@ export const Header = ({
   hasCart = true,
 }: HeaderProps) => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      let toastMessage = "";
+
+      if (searchParams.has("verified")) {
+        toastMessage = "Email successfully verified!";
+      }
+
+      if (toastMessage) {
+        setTimeout(() => {
+          router.replace("/");
+          toast.success(toastMessage, {
+            duration: 3000,
+          });
+        }, 1000);
+      }
+    }
+
+    isMounted.current = true;
+  }, []);
+
   return (
     <header className={cn("border-b", className)}>
       <Container className="flex items-center justify-between py-8">

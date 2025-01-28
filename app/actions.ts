@@ -1,5 +1,6 @@
 "use server";
 
+import { VerificationUserTemplate } from "@/components/shared";
 import { CheckoutFormValues } from "@/components/shared/checkout/checkout-form-schema";
 import { PayOrderTemplate } from "@/components/shared/email-templates/pay-order";
 import { sendEmail } from "@/lib";
@@ -99,6 +100,52 @@ export const createOrder = async (data: CheckoutFormValues) => {
     console.log("[Create order] Server error >>>>", error);
   }
 };
+
+export async function registerUser(body: Prisma.UserCreateInput) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+      },
+    });
+
+    if (user) {
+      if (!user.verified) {
+        throw new Error("Email not verified");
+      }
+
+      throw new Error("User already exists");
+    }
+
+    const createdUser = await prisma.user.create({
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: hashSync(body.password, 10),
+      },
+    });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createdUser.id,
+      },
+    });
+
+    await sendEmail(
+      createdUser.email,
+      "Next Pizza | Verification registration 📝",
+      VerificationUserTemplate({
+        code,
+      }),
+    );
+  } catch (err) {
+    console.log("Error [CREATE_USER]", err);
+    throw err;
+  }
+}
 
 export const updateUser = async (body: Prisma.UserUpdateInput) => {
   try {

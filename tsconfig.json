@@ -21,7 +21,8 @@
       "@/*": ["./src/*"],
       "@/prisma/*": ["./prisma/*"],
       "@/types/*": ["./@types/*"],
-      "@/configs/*": ["./src/configs/*"]
+      "@/configs/*": ["./src/configs/*"],
+      "@/app/*": ["./app/*"]
     }
   },
   "include": [
