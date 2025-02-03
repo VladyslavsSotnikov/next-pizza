@@ -19,18 +19,21 @@ import {
 import { cn } from "@/lib/utils";
 import { createOrder } from "../../actions";
 import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { API } from "@/services/api-client";
 
 export default function Checkout() {
   const { items, loading, updateItemQuantity, removeCartItem, totalAmount } =
     useCart();
+  const { data: session } = useSession();
 
   const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
-      firstName: "",
+      firstName: session?.user?.name || "",
       lastName: "",
       email: "",
       phone: "",
@@ -64,6 +67,21 @@ export default function Checkout() {
     const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
     updateItemQuantity(id, newQuantity);
   };
+
+  useEffect(() => {
+    async function getUserInfo() {
+      const user = await API.auth.getMe();
+      const [firstName, lastName] = user.fullName.split(" ");
+
+      form.setValue("firstName", firstName || "");
+      form.setValue("lastName", lastName || "");
+      form.setValue("email", user.email || "");
+    }
+
+    if (session) {
+      getUserInfo();
+    }
+  }, [session]);
 
   return (
     <Container>
