@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { TextareaHTMLAttributes } from "react";
 import { RequiredSymbol, ClearButton, ErrorText } from "@/components/shared";

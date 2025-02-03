@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Header } from "@/components/shared";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Next Pizza | Homepage",
@@ -15,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <main className="min-h-screen">
-      <Header />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Header />
+      </Suspense>
+
       {children}
       {modal}
     </main>
