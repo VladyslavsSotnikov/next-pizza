@@ -10,9 +10,9 @@ const nunito = Nunito({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={nunito.className}>

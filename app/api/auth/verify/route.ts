@@ -1,9 +1,9 @@
 import { prisma } from "@/prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export async function GET(req: NextRequest) {
   try {
-    const code = req.nextUrl.searchParams.get("code");
+    const code = "";
 
     if (!code) {
       return NextResponse.json({ error: "Code is required" }, { status: 400 });
@@ -16,7 +16,7 @@ export const GET = async (req: NextRequest) => {
     });
 
     if (!verificationCode) {
-      return NextResponse.json({ error: "Code is required" }, { status: 404 });
+      return NextResponse.json({ error: "Code is required" }, { status: 400 });
     }
 
     await prisma.user.update({
@@ -34,8 +34,8 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    return NextResponse.redirect(`${process.env.DOMAIN}/?verified`);
+    return NextResponse.redirect(new URL("/?verified", req.url));
   } catch (error) {
-    console.log("[Verify] Server error >>>>", error);
+    console.log("[VERIFY_GET] Server error", error);
   }
-};
+}
